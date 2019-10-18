@@ -61,18 +61,18 @@ class ShellParser:
             cmd_info = {'cmd': send_cmd, 'data': None}
             response = self.dev._readline()
             while response != '':
-                if self.COMMAND in response:
+                if self.COMMAND.lower() in response.lower():
                     cmd_info['msg'] = response.replace(self.COMMAND, '')
                     cmd_info['cmd'] = cmd_info['msg'].replace('\n', '')
 
-                if self.SUCCESS in response:
+                if self.SUCCESS.lower() in response.lower():
                     clean_msg = response.replace(self.SUCCESS, '')
                     cmd_info['msg'] = clean_msg.replace('\n', '')
                     cmd_info['result'] = RESULT_SUCCESS
                     cmd_info['data'] = self._try_parse_data(cmd_info['msg'])
                     break
 
-                if self.ERROR in response:
+                if self.ERROR.lower() in response.lower():
                     clean_msg = response.replace(self.ERROR, '')
                     cmd_info['msg'] = clean_msg.replace('\n', '')
                     cmd_info['result'] = RESULT_ERROR
